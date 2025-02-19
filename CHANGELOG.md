@@ -3,6 +3,19 @@
 
 All notable changes to the Star Hi Herbs website will be documented in this file.
 
+## [0.2.0] - 2024-03-19
+
+### Added
+- Implemented Product Catalog page with search and filtering
+- Created Individual Product Details page with specifications
+- Added Ingredients Solution page showcasing different applications
+- Implemented Applications page with industry-specific solutions
+- Created Resources Hub for documentation and research papers
+- Added About page with company history and values
+- Implemented Contact page with form and company information
+- Added proper routing for all new pages
+- Integrated toast notifications for form submissions
+
 ## [0.1.0] - 2024-03-19
 
 ### Added
