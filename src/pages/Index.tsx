@@ -1,7 +1,7 @@
-
 import { Button } from "@/components/ui/button";
 import { Microscope, Leaf, Shield } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   return (
@@ -81,24 +81,29 @@ const Index = () => {
                 icon: Microscope,
                 title: "Standardized Herbal Extracts",
                 description: "Scientifically validated active compounds",
+                link: "/catalog",
               },
               {
                 icon: Leaf,
                 title: "Organic Herbal Extracts",
                 description: "Certified organic botanical ingredients",
+                link: "/ingredients",
               },
               {
                 icon: Shield,
                 title: "Branded Ingredients",
                 description: "Proprietary formulations with proven efficacy",
+                link: "/catalog",
               },
               {
                 icon: Leaf,
-                title: "Probiotics",
-                description: "Clinically studied beneficial strains",
+                title: "Applications",
+                description: "Industry-specific solutions",
+                link: "/applications",
               },
             ].map((category, index) => (
-              <div
+              <Link
+                to={category.link}
                 key={category.title}
                 className="group bg-white p-6 rounded-xl border hover:border-primary transition-all duration-300 hover:shadow-lg cursor-pointer"
                 style={{ animationDelay: `${index * 0.2}s` }}
@@ -106,7 +111,7 @@ const Index = () => {
                 <category.icon className="w-12 h-12 text-primary mb-4 group-hover:scale-110 transition-transform" />
                 <h3 className="text-xl font-semibold mb-2">{category.title}</h3>
                 <p className="text-gray-600">{category.description}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

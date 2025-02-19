@@ -1,9 +1,9 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Filter } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
+import { Link, useNavigate } from "react-router-dom";
 
 type Product = {
   id: number;
@@ -49,6 +49,7 @@ const CATEGORIES = ["All", "Standardized Herbal Extracts", "Organic Herbal Extra
 const Catalog = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const navigate = useNavigate();
 
   const filteredProducts = MOCK_PRODUCTS.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -123,7 +124,12 @@ const Catalog = () => {
                 ))}
               </div>
               <div className="mt-4 flex gap-2">
-                <Button variant="outline" size="sm" className="flex-1">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="flex-1"
+                  onClick={() => navigate(`/product/${product.id}`)}
+                >
                   Learn More
                 </Button>
                 <Button size="sm" className="flex-1">
@@ -134,6 +140,23 @@ const Catalog = () => {
           ))}
         </div>
       </div>
+
+      {/* Related Solutions Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl font-bold mb-8">Explore Our Solutions</h2>
+          <div className="grid md:grid-cols-2 gap-6">
+            <Link to="/ingredients" className="group bg-gray-50 p-6 rounded-lg hover:bg-gray-100 transition-colors">
+              <h3 className="text-xl font-semibold mb-2">Ingredient Solutions</h3>
+              <p className="text-gray-600">Discover our comprehensive range of premium ingredients.</p>
+            </Link>
+            <Link to="/applications" className="group bg-gray-50 p-6 rounded-lg hover:bg-gray-100 transition-colors">
+              <h3 className="text-xl font-semibold mb-2">Applications</h3>
+              <p className="text-gray-600">Explore industry-specific solutions and applications.</p>
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
