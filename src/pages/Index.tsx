@@ -1,6 +1,6 @@
 
 import { Button } from "@/components/ui/button";
-import { Flask, Leaf, Factory, Shield, Microscope, Vial } from "lucide-react";
+import { Microscope, Leaf, Shield } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 
 const Index = () => {
@@ -40,7 +40,7 @@ const Index = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: Flask,
+                icon: Microscope,
                 title: "Scientific Innovation",
                 description: "State-of-the-art research and development for optimal efficacy",
               },
@@ -50,7 +50,7 @@ const Index = () => {
                 description: "Ethically sourced ingredients with complete traceability",
               },
               {
-                icon: Factory,
+                icon: Shield,
                 title: "Manufacturing Excellence",
                 description: "GMP-certified facilities with rigorous quality control",
               },
@@ -93,7 +93,7 @@ const Index = () => {
                 description: "Proprietary formulations with proven efficacy",
               },
               {
-                icon: Vial,
+                icon: Leaf,
                 title: "Probiotics",
                 description: "Clinically studied beneficial strains",
               },
