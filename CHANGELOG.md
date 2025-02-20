@@ -2,6 +2,69 @@
 
 All notable changes to the Star Hi Herbs website will be documented in this file.
 
+## [0.5.6] - 2024-03-19
+
+### Fixed
+- Resolved duplicate footer in Registration/Signup page
+- Fixed button text visibility issues across multiple pages:
+  - Added text-white class to Event card buttons
+  - Enhanced text contrast in Resource listing page buttons
+  - Improved text visibility in Tools listing page buttons
+  - Fixed button text color in Compatibility Checker tool
+- Improved button accessibility and contrast ratios
+- Ensured consistent button text visibility across the platform
+
+## [0.5.5] - 2024-03-19
+
+### Added
+- Enhanced ResourcesHub implementation
+  - Added resource types and categories
+  - Implemented resource interface with comprehensive properties
+  - Created mock data for various resource types
+  - Added resource cards with metadata display
+  - Implemented search and filter functionality
+  - Added download tracking and analytics
+  - Enhanced UI with proper spacing and animations
+
+### Changed
+- Updated Tools page design to match catalog pattern
+  - Enhanced header styling with professional tools badge
+  - Improved tool cards with better spacing and hover effects
+  - Added consistent animations and transitions
+  - Updated button styling and icon integration
+  - Enhanced info section layout and typography
+
+### Enhanced
+- Contact page redesign to match catalog pattern
+  - Added "Contact Us" badge and improved header
+  - Enhanced form layout and input styling
+  - Improved location cards presentation
+  - Added consistent animations and transitions
+  - Updated spacing and typography hierarchy
+
+### Fixed
+- Resolved linter errors and type declarations
+- Improved component organization
+- Enhanced code documentation
+- Updated import statements
+
+## [0.5.4] - 2024-03-19
+
+### Added
+- Comprehensive subscription popup system implementation
+  - Created reusable SubscriptionPopup component with email and phone inputs
+  - Implemented multiple trigger types:
+    - Onload popup (shows 2 seconds after first visit)
+    - Scroll popup (triggers at 50% page scroll)
+    - Exit intent popup (shows when mouse moves to leave)
+    - Inactivity popup (shows after 1 minute)
+  - Added form validation and submission handling
+  - Integrated toast notifications for success/error states
+  - Implemented localStorage for popup display management
+  - Added smooth animations using Framer Motion
+  - Enhanced accessibility features
+  - Added privacy policy integration
+
 ## [0.4.9] - 2024-03-19
 
 ### Fixed
@@ -335,6 +398,14 @@ All notable changes to the Star Hi Herbs website will be documented in this file
 - Enhanced search functionality across both sections
 - Improved UI/UX with clear categorization and navigation
 - Updated type checking and TypeScript support for new categories
+
+## [0.5.7] - 2024-03-19
+### Changed
+- Enhanced UI/UX of the Herbal Ingredient Compatibility Checker tool:
+  - Improved button styling with consistent white text color
+  - Added better visual feedback for interaction levels and scientific evidence
+  - Enhanced herb selection dropdowns with category badges
+  - Improved overall spacing and visual hierarchy
 
 ## [Unreleased]
 
