@@ -1,41 +1,93 @@
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Suspense } from "react";
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { toast } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
-import Catalog from "./pages/Catalog";
-import ProductDetails from "./pages/ProductDetails";
-import IngredientsPage from "./pages/IngredientsPage";
-import ApplicationsPage from "./pages/ApplicationsPage";
-import ResourcesHub from "./pages/ResourcesHub";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import NotFound from "./pages/NotFound";
+import PerformanceMonitor from "@/components/PerformanceMonitor";
+import ScrollRestoration from "@/components/ScrollRestoration";
+import Loading from "@/components/Loading";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import Index from "@/pages/Index";
+import About from "@/pages/About";
+import Contact from "@/pages/Contact";
+import Tools from "@/pages/Tools";
+import ResourcesHub from "@/pages/ResourcesHub";
+import Catalog from "@/pages/Catalog";
+import ProductDetails from "@/pages/ProductDetails";
+import Events from "@/pages/Events";
+import EventDetails from "@/pages/EventDetails";
+import Login from "@/pages/auth/Login";
+import ForgotPassword from "@/pages/auth/ForgotPassword";
+import BlogList from "@/pages/blog/BlogList";
+import BlogPost from "@/pages/blog/BlogPost";
+import IngredientsPage from "@/pages/IngredientsPage";
+import ApplicationsPage from "@/pages/ApplicationsPage";
+import SampleRequest from "@/pages/forms/SampleRequest";
+import CompatibilityChecker from "@/pages/tools/CompatibilityChecker";
+import DosageCalculator from "@/pages/tools/DosageCalculator";
+import COAValidator from "@/pages/tools/COAValidator";
+import CostEstimator from "@/pages/tools/CostEstimator";
+import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
+import TermsOfService from "@/pages/legal/TermsOfService";
+import CookiePolicy from "@/pages/legal/CookiePolicy";
+import IngredientCategory from "@/pages/IngredientCategory";
+import ApplicationCategory from "@/pages/ApplicationCategory";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/catalog" element={<Catalog />} />
-          <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/ingredients" element={<IngredientsPage />} />
-          <Route path="/applications" element={<ApplicationsPage />} />
-          <Route path="/resources" element={<ResourcesHub />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Router>
+          <ScrollRestoration />
+          <div className="flex flex-col min-h-screen overflow-x-hidden">
+            <Navbar />
+            <main className="flex-grow relative">
+              <Suspense fallback={<Loading />}>
+                <PerformanceMonitor />
+                <div className="w-full">
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/catalog" element={<Catalog />} />
+                    <Route path="/product/:id" element={<ProductDetails />} />
+                    <Route path="/events" element={<Events />} />
+                    <Route path="/events/:slug" element={<EventDetails />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/tools" element={<Tools />} />
+                    <Route path="/tools/compatibility-checker" element={<CompatibilityChecker />} />
+                    <Route path="/tools/dosage-calculator" element={<DosageCalculator />} />
+                    <Route path="/tools/coa-validator" element={<COAValidator />} />
+                    <Route path="/tools/cost-estimator" element={<CostEstimator />} />
+                    <Route path="/resources" element={<ResourcesHub />} />
+                    <Route path="/blog" element={<BlogList />} />
+                    <Route path="/blog/:slug" element={<BlogPost />} />
+                    <Route path="/ingredients" element={<IngredientsPage />} />
+                    <Route path="/ingredients/:categoryId" element={<IngredientCategory />} />
+                    <Route path="/applications" element={<ApplicationsPage />} />
+                    <Route path="/applications/:categoryId" element={<ApplicationCategory />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/forms/sample-request" element={<SampleRequest />} />
+                    
+                    {/* Legal Routes */}
+                    <Route path="/legal/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/legal/terms-of-service" element={<TermsOfService />} />
+                    <Route path="/legal/cookie-policy" element={<CookiePolicy />} />
+                  </Routes>
+                </div>
+              </Suspense>
+            </main>
+            <Footer />
+          </div>
+        </Router>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;

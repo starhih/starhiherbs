@@ -1,4 +1,3 @@
-
 import Navbar from "@/components/layout/Navbar";
 import { Shield } from "lucide-react";
 
