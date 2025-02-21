@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { Mail, Phone, Loader2, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 interface SubscriptionPopupProps {
   trigger: "load" | "scroll" | "exit" | "inactive";
@@ -16,26 +16,43 @@ const SubscriptionPopup = ({ trigger, isOpen, onClose }: SubscriptionPopupProps)
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState("");
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
     setIsSubmitting(true);
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Please enter a valid email address");
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       // Here you would typically make an API call to your backend
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulated API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
+      // Store that user has subscribed
+      localStorage.setItem("subscribedUser", "true");
+      
       toast({
         title: "Successfully Subscribed!",
         description: "Thank you for subscribing. We'll keep you updated.",
         duration: 5000,
       });
 
-      onClose();
-      setEmail("");
-      setPhone("");
+      // Close popup after showing success message
+      setTimeout(() => {
+        onClose();
+        setEmail("");
+        setPhone("");
+      }, 2000);
     } catch (error) {
+      setError("Something went wrong. Please try again.");
       toast({
         title: "Error",
         description: "Something went wrong. Please try again.",
@@ -82,6 +99,9 @@ const SubscriptionPopup = ({ trigger, isOpen, onClose }: SubscriptionPopupProps)
                 onChange={(e) => setEmail(e.target.value)}
                 required
               />
+              {error && (
+                <p className="text-red-500 text-sm mt-1">{error}</p>
+              )}
             </div>
 
             <div className="relative">

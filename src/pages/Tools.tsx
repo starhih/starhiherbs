@@ -8,11 +8,40 @@ import {
   DollarSign,
   Sparkles,
   ArrowUpRight,
-  Star
+  Star,
+  Clock
 } from "lucide-react";
 import { motion } from "framer-motion";
 
 const TOOLS = [
+  {
+    id: "synergistic-builder",
+    name: "Herbal Extract Synergistic Formulation Builder",
+    description: "Design optimal herbal extract combinations with AI-powered synergy analysis and scientific evidence.",
+    icon: Sparkles,
+    color: "bg-purple-500/10 text-purple-500",
+    features: [
+      "AI-powered synergy analysis",
+      "Scientific evidence support",
+      "Dosage recommendations",
+      "Detailed formulation reports"
+    ],
+    link: "/tools/synergistic-builder"
+  },
+  {
+    id: "stability-predictor",
+    name: "Herbal Extract Stability & Shelf Life Predictor",
+    description: "Predict stability and determine optimal storage conditions for your herbal extracts with our advanced analysis tool.",
+    icon: Clock,
+    color: "bg-blue-500/10 text-blue-500",
+    features: [
+      "Shelf life prediction",
+      "Storage optimization",
+      "Stability analysis",
+      "PDF report generation"
+    ],
+    link: "/tools/stability-predictor"
+  },
   {
     id: "compatibility-checker",
     name: "Herbal Ingredient Compatibility Checker",

@@ -2,6 +2,31 @@
 
 All notable changes to the Star Hi Herbs website will be documented in this file.
 
+## [0.5.7] - 2024-03-19
+
+### Added
+- New Professional Tools:
+  - Herbal Extract Synergistic Formulation Builder
+    - AI-powered synergy analysis
+    - Scientific evidence support
+    - Dosage recommendations
+    - Detailed formulation reports
+  - Herbal Extract Stability & Shelf Life Predictor
+    - Shelf life prediction capabilities
+    - Storage optimization recommendations
+    - Stability analysis features
+    - PDF report generation
+- Enhanced Tools page with updated grid layout and improved UI
+  - Added professional tools badge with star icon
+  - Improved tool cards with hover effects
+  - Enhanced feature bullet points presentation
+  - Updated button styling and interactions
+
+### Fixed
+- Improved text visibility and contrast in Compatibility Checker tool
+- Enhanced overall UI/UX consistency across all tools
+- Updated routing configuration for new tools
+
 ## [0.5.6] - 2024-03-19
 
 ### Fixed
@@ -398,14 +423,6 @@ All notable changes to the Star Hi Herbs website will be documented in this file
 - Enhanced search functionality across both sections
 - Improved UI/UX with clear categorization and navigation
 - Updated type checking and TypeScript support for new categories
-
-## [0.5.7] - 2024-03-19
-### Changed
-- Enhanced UI/UX of the Herbal Ingredient Compatibility Checker tool:
-  - Improved button styling with consistent white text color
-  - Added better visual feedback for interaction levels and scientific evidence
-  - Enhanced herb selection dropdowns with category badges
-  - Improved overall spacing and visual hierarchy
 
 ## [Unreleased]
 

@@ -204,7 +204,7 @@ const Catalog = () => {
           <div className="grid md:grid-cols-2 gap-6">
             <Link 
               to="/ingredients" 
-              className="group bg-gradient-to-br from-primary/5 to-primary/10 p-8 rounded-2xl hover:shadow-lg transition-all duration-300 border border-primary/10"
+              className="group bg-gradient-to-br from-primary/5 to-primary/10 p-8 rounded-2xl hover:shadow-lg transition-all duration-300 border border-primary/10 relative z-10"
             >
               <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                 Ingredient Solutions
@@ -219,7 +219,7 @@ const Catalog = () => {
             </Link>
             <Link 
               to="/applications" 
-              className="group bg-gradient-to-br from-primary/5 to-primary/10 p-8 rounded-2xl hover:shadow-lg transition-all duration-300 border border-primary/10"
+              className="group bg-gradient-to-br from-primary/5 to-primary/10 p-8 rounded-2xl hover:shadow-lg transition-all duration-300 border border-primary/10 relative z-10"
             >
               <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
                 Applications

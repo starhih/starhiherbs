@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Microscope, Leaf, Shield, ArrowRight, ChevronRight, Globe, Award, Sparkles } from "lucide-react";
+import { Microscope, Leaf, Shield, ArrowRight, ChevronRight, Globe, Award, Sparkles, Star } from "lucide-react";
 import Navbar from "@/components/layout/Navbar";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -155,9 +155,23 @@ const Index = () => {
             transition={{ duration: 0.5 }}
             className="text-center max-w-2xl mx-auto mb-16"
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Why Choose Star Hi Herbs?
-          </h2>
+            <div className="inline-flex items-center gap-x-1 rounded-full px-4 py-1 text-sm/6 font-medium ring-1 ring-inset text-primary ring-primary/10 bg-primary/5">
+              <Star className="h-4 w-4" />
+              Why Choose Us
+            </div>
+            <h2 className="mt-6 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              Why Top{" "}
+              <div className="relative inline-flex h-[1.5em] overflow-hidden">
+                <div className="animate-word-rotate flex flex-col">
+                  <span className="block h-[1.5em] leading-[1.5em] bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">Nutraceutical</span>
+                  <span className="block h-[1.5em] leading-[1.5em] bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">Pharmaceutical</span>
+                  <span className="block h-[1.5em] leading-[1.5em] bg-gradient-to-r from-purple-600 to-purple-800 bg-clip-text text-transparent">Cosmeceutical</span>
+                  <span className="block h-[1.5em] leading-[1.5em] bg-gradient-to-r from-green-600 to-green-800 bg-clip-text text-transparent">Supplements</span>
+                  <span className="block h-[1.5em] leading-[1.5em] bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">Nutraceutical</span>
+                </div>
+              </div>{" "}
+              Brands Trust Us
+            </h2>
             <p className="text-gray-600 text-lg">
               We combine traditional wisdom with modern science to deliver 
               premium quality botanical ingredients.

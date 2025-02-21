@@ -31,6 +31,8 @@ import CompatibilityChecker from "@/pages/tools/CompatibilityChecker";
 import DosageCalculator from "@/pages/tools/DosageCalculator";
 import COAValidator from "@/pages/tools/COAValidator";
 import CostEstimator from "@/pages/tools/CostEstimator";
+import StabilityPredictor from "@/pages/tools/StabilityPredictor";
+import SynergisticBuilder from "@/pages/tools/SynergisticBuilder";
 import QuoteCalculator from "@/pages/forms/QuoteCalculator";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import TermsOfService from "@/pages/legal/TermsOfService";
@@ -79,6 +81,8 @@ function App() {
                     <Route path="/events/:slug" element={<EventDetails />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/tools" element={<Tools />} />
+                    <Route path="/tools/synergistic-builder" element={<SynergisticBuilder />} />
+                    <Route path="/tools/stability-predictor" element={<StabilityPredictor />} />
                     <Route path="/tools/compatibility-checker" element={<CompatibilityChecker />} />
                     <Route path="/tools/dosage-calculator" element={<DosageCalculator />} />
                     <Route path="/tools/coa-validator" element={<COAValidator />} />
