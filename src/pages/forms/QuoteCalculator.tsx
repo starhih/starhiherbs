@@ -3,7 +3,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
@@ -167,7 +166,7 @@ const QuoteCalculator = () => {
                               <SelectValue placeholder="Select product type" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="bg-white border shadow-md z-50">
                             {PRODUCT_TYPES.map((type) => (
                               <SelectItem 
                                 key={type.id} 
@@ -215,7 +214,7 @@ const QuoteCalculator = () => {
                               <SelectValue placeholder="Select packaging type" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="bg-white border shadow-md z-50">
                             {PACKAGING_TYPES.map((type) => (
                               <SelectItem 
                                 key={type.id} 
@@ -244,7 +243,7 @@ const QuoteCalculator = () => {
                               <SelectValue placeholder="Select required certifications" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="bg-white border shadow-md z-50">
                             {CERTIFICATIONS.map((cert) => (
                               <SelectItem 
                                 key={cert.id} 
@@ -291,7 +290,7 @@ const QuoteCalculator = () => {
                               <SelectValue placeholder="Select delivery timeline" />
                             </SelectTrigger>
                           </FormControl>
-                          <SelectContent>
+                          <SelectContent className="bg-white border shadow-md z-50">
                             {TIMELINES.map((timeline) => (
                               <SelectItem 
                                 key={timeline.id} 
@@ -378,8 +377,6 @@ const QuoteCalculator = () => {
           </Card>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };

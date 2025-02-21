@@ -84,8 +84,6 @@ const Register = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <Navbar />
-      
       <main className="container mx-auto px-4 pt-24 pb-12">
         <div className="max-w-md mx-auto">
           <motion.div
@@ -283,8 +281,6 @@ const Register = () => {
           </Card>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 };

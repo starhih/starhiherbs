@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { format } from 'date-fns';
+import { format, isFuture, isPast, isToday } from 'date-fns';
 import { Link } from 'react-router-dom';
 import { Event, EventCategory, EventStatus } from '@/types/events';
-import { events, getUpcomingEvents, getPastEvents, getEventsByCategory } from '@/data/events';
+import { events } from '@/data/events';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -12,20 +12,72 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
+import { 
+  Calendar,
+  MapPin,
+  Search,
+  Users,
+  ArrowRight,
+  Filter,
+  Clock,
+  Building,
+  Star
+} from 'lucide-react';
 
 const Events = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<EventCategory | 'all'>('all');
   const [selectedStatus, setSelectedStatus] = useState<EventStatus | 'all'>('all');
 
-  const filteredEvents = events.filter(event => {
-    const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      event.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || event.category === selectedCategory;
-    const matchesStatus = selectedStatus === 'all' || event.status === selectedStatus;
-    return matchesSearch && matchesCategory && matchesStatus;
-  });
+  // Function to determine event status based on dates
+  const getEventStatus = (startDate: string, endDate: string): EventStatus => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const now = new Date();
+
+    if (isPast(end)) {
+      return 'Past';
+    } else if (isFuture(start)) {
+      return 'Upcoming';
+    } else if (isToday(start) || (start <= now && end >= now)) {
+      return 'Ongoing';
+    }
+    return 'Past';
+  };
+
+  // Sort and filter events
+  const filteredEvents = events
+    .map(event => ({
+      ...event,
+      currentStatus: getEventStatus(event.startDate, event.endDate)
+    }))
+    .sort((a, b) => {
+      const priority = { 'Upcoming': 0, 'Ongoing': 1, 'Past': 2 };
+      return priority[a.currentStatus] - priority[b.currentStatus];
+    })
+    .filter(event => {
+      const matchesSearch = 
+        event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        event.description.toLowerCase().includes(searchQuery.toLowerCase());
+      const matchesCategory = selectedCategory === 'all' || event.category === selectedCategory;
+      const matchesStatus = selectedStatus === 'all' || event.currentStatus === selectedStatus;
+      return matchesSearch && matchesCategory && matchesStatus;
+    });
+
+  // Status badge styles
+  const getStatusStyles = (status: EventStatus) => {
+    switch (status) {
+      case 'Upcoming':
+        return 'bg-green-100 text-green-800';
+      case 'Ongoing':
+        return 'bg-blue-100 text-blue-800';
+      case 'Past':
+        return 'bg-gray-100 text-gray-600';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -36,26 +88,34 @@ const Events = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-12"
         >
+          <span className="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium text-primary bg-primary/10 rounded-full mb-4">
+            <Star className="w-4 h-4" />
+            Industry Events
+          </span>
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Events & Trade Shows</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             Join us at industry-leading events worldwide. Discover our latest innovations and meet our expert team.
           </p>
         </motion.div>
 
         <div className="flex flex-col md:flex-row gap-4 mb-8">
-          <Input
-            type="text"
-            placeholder="Search events..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="md:w-1/3"
-          />
-          <div className="md:w-1/4">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <Input
+              type="text"
+              placeholder="Search events by name, description, or location..."
+              className="pl-10 h-11 bg-white"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0">
             <Select value={selectedCategory} onValueChange={(value) => setSelectedCategory(value as EventCategory | 'all')}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select Category" />
+              <SelectTrigger className="w-[180px] bg-white">
+                <Filter className="w-4 h-4 mr-2 text-gray-500" />
+                <SelectValue placeholder="Category" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all">All Categories</SelectItem>
                 <SelectItem value="Trade Show">Trade Show</SelectItem>
                 <SelectItem value="Conference">Conference</SelectItem>
@@ -63,75 +123,81 @@ const Events = () => {
                 <SelectItem value="Workshop">Workshop</SelectItem>
               </SelectContent>
             </Select>
-          </div>
-          <div className="md:w-1/4">
+
             <Select value={selectedStatus} onValueChange={(value) => setSelectedStatus(value as EventStatus | 'all')}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select Status" />
+              <SelectTrigger className="w-[180px] bg-white">
+                <Clock className="w-4 h-4 mr-2 text-gray-500" />
+                <SelectValue placeholder="Status" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="bg-white">
                 <SelectItem value="all">All Status</SelectItem>
                 <SelectItem value="Upcoming">Upcoming</SelectItem>
+                <SelectItem value="Ongoing">Ongoing</SelectItem>
                 <SelectItem value="Past">Past</SelectItem>
-                <SelectItem value="Cancelled">Cancelled</SelectItem>
               </SelectContent>
             </Select>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredEvents.map((event) => (
             <motion.div
               key={event.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow p-6 h-full flex flex-col"
             >
-              <div className="relative h-48">
-                <img
-                  src={event.coverImage}
-                  alt={event.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute top-4 right-4">
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    event.status === 'Upcoming' ? 'bg-green-100 text-green-800' :
-                    event.status === 'Past' ? 'bg-gray-100 text-gray-800' :
-                    'bg-red-100 text-red-800'
-                  }`}>
-                    {event.status}
-                  </span>
+              <div className="mb-6">
+                <div className="relative h-48 rounded-xl overflow-hidden mb-4">
+                  <img
+                    src={event.coverImage}
+                    alt={event.title}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                  />
+                  <div className="absolute top-4 right-4">
+                    <span className={`px-3 py-1.5 rounded-full text-sm font-medium ${getStatusStyles(event.currentStatus)}`}>
+                      {event.currentStatus}
+                    </span>
+                  </div>
                 </div>
+                <div className="flex items-center gap-2 mb-3">
+                  <Building className="w-4 h-4 text-primary" />
+                  <span className="text-sm text-primary">{event.category}</span>
+                </div>
+                <h3 className="text-xl font-semibold mb-2">{event.title}</h3>
+                <p className="text-gray-600 mb-4 line-clamp-2">{event.shortDescription}</p>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{event.title}</h3>
-                <p className="text-gray-600 text-sm mb-4">{event.shortDescription}</p>
-                <div className="flex items-center text-gray-500 text-sm mb-4">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                  <span>
-                    {format(new Date(event.startDate), 'MMM d, yyyy')} - {format(new Date(event.endDate), 'MMM d, yyyy')}
-                  </span>
+
+              <div className="space-y-3 mt-auto mb-6">
+                <div className="flex items-center text-gray-600 text-sm">
+                  <Calendar className="w-4 h-4 mr-2 text-primary" />
+                  <span>{format(new Date(event.startDate), 'MMM d, yyyy')}</span>
                 </div>
-                <div className="flex items-center text-gray-500 text-sm mb-6">
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+                <div className="flex items-center text-gray-600 text-sm">
+                  <MapPin className="w-4 h-4 mr-2 text-primary" />
                   <span>{event.location.city}, {event.location.country}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-500">
-                    {event.currentAttendees}/{event.maxAttendees} Attendees
-                  </span>
-                  <Link to={`/events/${event.slug}`}>
-                    <Button variant="default" size="sm">
-                      View Details
-                    </Button>
-                  </Link>
+                <div className="flex items-center text-gray-600 text-sm">
+                  <Users className="w-4 h-4 mr-2 text-primary" />
+                  <span>{event.currentAttendees}/{event.maxAttendees} Attendees</span>
                 </div>
+              </div>
+
+              <div className="flex gap-2">
+                <Link to={`/events/${event.slug}`} className="flex-1">
+                  <Button variant="outline" className="w-full border-primary text-primary hover:bg-primary/10">
+                    Learn More
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link to={`/events/${event.slug}#register`} className="flex-1">
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 text-white shadow-sm"
+                  >
+                    Register Now
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
               </div>
             </motion.div>
           ))}
@@ -139,7 +205,15 @@ const Events = () => {
 
         {filteredEvents.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-600">No events found matching your criteria.</p>
+            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+              <Search className="h-8 w-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-1">
+              No events found
+            </h3>
+            <p className="text-gray-500">
+              Try adjusting your search or filter to find what you're looking for.
+            </p>
           </div>
         )}
       </div>

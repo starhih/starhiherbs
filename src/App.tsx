@@ -9,6 +9,8 @@ import ScrollRestoration from "@/components/ScrollRestoration";
 import Loading from "@/components/Loading";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import SubscriptionPopup from "@/components/SubscriptionPopup";
+import { usePopupTrigger } from "@/hooks/usePopupTrigger";
 import Index from "@/pages/Index";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
@@ -29,15 +31,33 @@ import CompatibilityChecker from "@/pages/tools/CompatibilityChecker";
 import DosageCalculator from "@/pages/tools/DosageCalculator";
 import COAValidator from "@/pages/tools/COAValidator";
 import CostEstimator from "@/pages/tools/CostEstimator";
+import QuoteCalculator from "@/pages/forms/QuoteCalculator";
 import PrivacyPolicy from "@/pages/legal/PrivacyPolicy";
 import TermsOfService from "@/pages/legal/TermsOfService";
 import CookiePolicy from "@/pages/legal/CookiePolicy";
 import IngredientCategory from "@/pages/IngredientCategory";
 import ApplicationCategory from "@/pages/ApplicationCategory";
+import NotFound from "@/pages/NotFound";
+import Register from "@/pages/auth/Register";
 
 const queryClient = new QueryClient();
 
 function App() {
+  const {
+    showLoadPopup,
+    showScrollPopup,
+    showExitPopup,
+    showInactivePopup,
+    handleLoadPopupClose,
+    handleScrollPopupClose,
+    handleExitPopupClose,
+    handleInactivePopupClose,
+  } = usePopupTrigger({
+    scrollThreshold: 50, // Show scroll popup at 50% scroll
+    inactivityTimeout: 60000, // Show inactive popup after 1 minute
+    exitDelay: 1000, // Show exit popup after 1 second
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -63,6 +83,7 @@ function App() {
                     <Route path="/tools/dosage-calculator" element={<DosageCalculator />} />
                     <Route path="/tools/coa-validator" element={<COAValidator />} />
                     <Route path="/tools/cost-estimator" element={<CostEstimator />} />
+                    <Route path="/forms/quote-calculator" element={<QuoteCalculator />} />
                     <Route path="/resources" element={<ResourcesHub />} />
                     <Route path="/blog" element={<BlogList />} />
                     <Route path="/blog/:slug" element={<BlogPost />} />
@@ -70,19 +91,43 @@ function App() {
                     <Route path="/ingredients/:categoryId" element={<IngredientCategory />} />
                     <Route path="/applications" element={<ApplicationsPage />} />
                     <Route path="/applications/:categoryId" element={<ApplicationCategory />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/auth/login" element={<Login />} />
+                    <Route path="/auth/register" element={<Register />} />
+                    <Route path="/auth/forgot-password" element={<ForgotPassword />} />
                     <Route path="/forms/sample-request" element={<SampleRequest />} />
                     
                     {/* Legal Routes */}
                     <Route path="/legal/privacy-policy" element={<PrivacyPolicy />} />
                     <Route path="/legal/terms-of-service" element={<TermsOfService />} />
                     <Route path="/legal/cookie-policy" element={<CookiePolicy />} />
+                    <Route path="*" element={<NotFound />} />
                   </Routes>
                 </div>
               </Suspense>
             </main>
             <Footer />
+
+            {/* Subscription Popups */}
+            <SubscriptionPopup
+              trigger="load"
+              isOpen={showLoadPopup}
+              onClose={handleLoadPopupClose}
+            />
+            <SubscriptionPopup
+              trigger="scroll"
+              isOpen={showScrollPopup}
+              onClose={handleScrollPopupClose}
+            />
+            <SubscriptionPopup
+              trigger="exit"
+              isOpen={showExitPopup}
+              onClose={handleExitPopupClose}
+            />
+            <SubscriptionPopup
+              trigger="inactive"
+              isOpen={showInactivePopup}
+              onClose={handleInactivePopupClose}
+            />
           </div>
         </Router>
       </TooltipProvider>

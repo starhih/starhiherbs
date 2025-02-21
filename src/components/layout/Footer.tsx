@@ -17,9 +17,20 @@ const Footer = () => {
       { label: "Applications", path: "/applications" },
     ],
     resources: [
-      { label: "Blog", path: "/blog" },
       { label: "Tools", path: "/tools" },
+      { label: "Blog", path: "/blog" },
       { label: "Resources Hub", path: "/resources" },
+    ],
+    tools: [
+      { label: "Compatibility Checker", path: "/tools/compatibility-checker" },
+      { label: "Dosage Calculator", path: "/tools/dosage-calculator" },
+      { label: "COA Validator", path: "/tools/coa-validator" },
+      { label: "Cost Estimator", path: "/tools/cost-estimator" },
+    ],
+    account: [
+      { label: "Sign In", path: "/auth/login" },
+      { label: "Create Account", path: "/auth/register" },
+      { label: "Request Quote", path: "/forms/quote-calculator" },
     ],
     legal: [
       { label: "Privacy Policy", path: "/legal/privacy-policy" },
@@ -31,8 +42,8 @@ const Footer = () => {
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-8">
+          <div className="lg:col-span-2">
             <Link to="/" className="flex flex-col items-start gap-4 mb-6">
               <img 
                 src="/logo.png" 
@@ -84,6 +95,38 @@ const Footer = () => {
             <h3 className="text-white font-semibold mb-4">Resources</h3>
             <ul className="space-y-2">
               {footerLinks.resources.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="text-sm text-gray-400 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-white font-semibold mb-4">Tools</h3>
+            <ul className="space-y-2">
+              {footerLinks.tools.map((link) => (
+                <li key={link.path}>
+                  <Link
+                    to={link.path}
+                    className="text-sm text-gray-400 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h3 className="text-white font-semibold mb-4">Account</h3>
+            <ul className="space-y-2">
+              {footerLinks.account.map((link) => (
                 <li key={link.path}>
                   <Link
                     to={link.path}

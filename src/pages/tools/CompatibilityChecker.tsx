@@ -264,38 +264,73 @@ const CompatibilityChecker = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.3 }}
+                className="mt-8"
               >
-                <Card className="p-6 mb-8 overflow-hidden">
-                  <div className="relative">
+                <Card className="overflow-hidden">
+                  <div className="relative p-6">
                     <div className={cn(
-                      "absolute top-0 right-0 w-32 h-32 rounded-full opacity-10 -mr-16 -mt-16",
+                      "absolute top-0 right-0 w-[500px] h-[500px] rounded-full opacity-5 -mr-48 -mt-48 blur-3xl",
                       result.isCompatible ? "bg-green-500" : "bg-red-500"
                     )} />
                     
-                    <Alert variant={result.isCompatible ? "default" : "destructive"} className="mb-6">
+                    <Alert 
+                      variant={result.isCompatible ? "default" : "destructive"} 
+                      className={cn(
+                        "mb-6 border-2",
+                        result.isCompatible ? "border-green-500/50 bg-green-50" : "border-red-500/50 bg-red-50"
+                      )}
+                    >
                       {result.isCompatible ? (
                         <CheckCircle2 className="h-5 w-5 text-green-500" />
                       ) : (
                         <AlertTriangle className="h-5 w-5 text-red-500" />
                       )}
-                      <AlertTitle className="text-lg">
+                      <AlertTitle className={cn(
+                        "text-lg font-semibold",
+                        result.isCompatible ? "text-green-800" : "text-red-800"
+                      )}>
                         {result.isCompatible ? "Compatible Ingredients" : "Caution Advised"}
                       </AlertTitle>
-                      <AlertDescription>
-                        <p className="mt-2 text-base">{result.reason}</p>
+                      <AlertDescription className={cn(
+                        "mt-2 text-base",
+                        result.isCompatible ? "text-green-700" : "text-red-700"
+                      )}>
+                        {result.reason}
                       </AlertDescription>
                     </Alert>
 
                     <div className="grid md:grid-cols-2 gap-6 mb-6">
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <h3 className="font-medium mb-2">Interaction Level</h3>
-                        <p className={cn("capitalize", getInteractionColor(result.interactionLevel))}>
+                      <div className={cn(
+                        "p-4 rounded-lg border-2",
+                        result.interactionLevel === "none" ? "bg-green-50 border-green-100" :
+                        result.interactionLevel === "mild" ? "bg-yellow-50 border-yellow-100" :
+                        result.interactionLevel === "moderate" ? "bg-orange-50 border-orange-100" :
+                        "bg-red-50 border-red-100"
+                      )}>
+                        <h3 className="font-medium mb-2 text-gray-800">Interaction Level</h3>
+                        <p className={cn(
+                          "capitalize font-medium",
+                          result.interactionLevel === "none" ? "text-green-600" :
+                          result.interactionLevel === "mild" ? "text-yellow-600" :
+                          result.interactionLevel === "moderate" ? "text-orange-600" :
+                          "text-red-600"
+                        )}>
                           {result.interactionLevel || "None"}
                         </p>
                       </div>
-                      <div className="p-4 bg-gray-50 rounded-lg">
-                        <h3 className="font-medium mb-2">Scientific Evidence</h3>
-                        <p className="text-gray-600">
+                      <div className={cn(
+                        "p-4 rounded-lg border-2",
+                        result.scientificEvidence === "strong" ? "bg-blue-50 border-blue-100" :
+                        result.scientificEvidence === "moderate" ? "bg-indigo-50 border-indigo-100" :
+                        "bg-purple-50 border-purple-100"
+                      )}>
+                        <h3 className="font-medium mb-2 text-gray-800">Scientific Evidence</h3>
+                        <p className={cn(
+                          "font-medium",
+                          result.scientificEvidence === "strong" ? "text-blue-600" :
+                          result.scientificEvidence === "moderate" ? "text-indigo-600" :
+                          "text-purple-600"
+                        )}>
                           {getEvidenceLabel(result.scientificEvidence)}
                         </p>
                       </div>
@@ -303,7 +338,7 @@ const CompatibilityChecker = () => {
 
                     {result.recommendations && (
                       <div className="space-y-4">
-                        <h3 className="font-medium text-lg">Recommendations</h3>
+                        <h3 className="font-medium text-lg text-gray-900">Recommendations</h3>
                         <ul className="space-y-3">
                           {result.recommendations.map((rec, index) => (
                             <motion.li
@@ -311,12 +346,12 @@ const CompatibilityChecker = () => {
                               initial={{ opacity: 0, x: -20 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: index * 0.1 }}
-                              className="flex items-start gap-2"
+                              className="flex items-start gap-3 bg-gray-50 p-3 rounded-lg border border-gray-100"
                             >
                               <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                                 <span className="text-primary text-sm font-medium">{index + 1}</span>
                               </div>
-                              <span className="text-gray-600">{rec}</span>
+                              <span className="text-gray-700">{rec}</span>
                             </motion.li>
                           ))}
                         </ul>
@@ -332,13 +367,13 @@ const CompatibilityChecker = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-100"
+            className="mt-8 p-6 bg-blue-50 rounded-xl border border-blue-100 shadow-sm"
           >
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               <InfoIcon className="h-6 w-6 text-blue-500 flex-shrink-0" />
               <div>
-                <h3 className="font-medium text-blue-800 mb-2">Important Information</h3>
-                <p className="text-sm text-blue-700 leading-relaxed">
+                <h3 className="font-medium text-blue-900 mb-2">Important Information</h3>
+                <p className="text-sm text-blue-800 leading-relaxed">
                   This tool provides general guidance based on known herb interactions and available research. 
                   The information should not be considered as medical advice. Always consult with a qualified 
                   healthcare practitioner before combining herbs, especially if you are taking medications 
